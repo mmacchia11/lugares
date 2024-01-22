@@ -6,14 +6,14 @@ const taskSchema = new Schema({
   },
   nombre: {
     type: String,
-    required: [true, "titulo requerido"],
+    required: [true, "nombre requerido"],
     trim: true,
   },
   description: {
     type: String,
     trim: true,
   },
-  catergoria: {
+  category: {
     type: String,
     trim: true,
   },
