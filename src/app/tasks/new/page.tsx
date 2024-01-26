@@ -19,6 +19,12 @@ function FormPage() {
   const router = useRouter()
   const params = useParams()
 
+  const getTask = async () => {
+    const res =  await fetch(`/api/tasks/${params.id}`)
+    const data = await res.json()
+    console.log(data)
+  }
+
   const createRasks = async () => {
 
     try{
@@ -40,10 +46,33 @@ function FormPage() {
       console.log(error)
     }
   }
+
+  const updateTask = async () => {
+    
+
+  }
+
+  const handlerDelete =async () => {
+    if(window.confirm("Estas seguro de quere eliminar la tarea??")){
+    try{
+      const res =await  fetch(`/api/tasks/${params.id}`,{
+        method:"DELETE"
+      })
+      router.push('/')
+      router.refresh()
+    }catch(error){
+      console.log(error)
+    }
+    }
+  }
   
   const handlerSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await createRasks();
+    if(!params.id){
+      await createRasks();
+    }else{
+      console.log('update')
+    }
 
   }
   const handleChange = (
@@ -51,20 +80,33 @@ function FormPage() {
     ) => setNewTask({... newTask, [e.target.name]: e.target.value})
 
   useEffect(() => {
-    console.log(params)
+    if(params.id){
+      getTask()
+    }
   },[])
 
   return (
-    <div className='h-[calc(100vh-7rem)] flex flex-col  justify-center items-center'>
+    <div className='h-[calc(100vh-7rem)] flex flex-col justify-center items-center'>
         <form
          onSubmit={handlerSubmit}
-         className='flex flex-col gap-2'
+         className='flex flex-col gap-2 mt-10'
          >
-          <h1 className='font-bold text-3xl'>
-            {
-              !params.id ? 'Nuevo Lugar' : 'Editar Lugar' 
-            }
-          </h1>
+
+          <header className='flex justify-between items-center'>
+
+            <h1 className='font-bold text-3xl'>
+              {
+                !params.id ? 'Nuevo Lugar' : 'Editar Lugar' 
+              }
+            </h1>
+            <button
+            type='button'
+            className='bg-red-500 text-white font-bold px-3 py-1 rounded-md'
+            onClick={handlerDelete}
+            >
+              Borrar
+            </button>
+          </header>
             <input type="text" name="nombre" placeholder='Nombre' 
             className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
@@ -85,8 +127,11 @@ function FormPage() {
             onChange={handleChange}
             />
             <button
+            type='submit'
             className='bg-fuchsia-900 text-white font-bold px-2 py-4 rounded-lg border-2'>
-              Guardar
+              {
+                !params.id ? 'Crear' : 'Editar'
+              }
             </button>
         </form>
     </div>
