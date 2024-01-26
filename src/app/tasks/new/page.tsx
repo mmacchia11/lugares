@@ -1,8 +1,8 @@
 "use client"
 import { set } from 'mongoose';
-import {ChangeEvent,FormEvent,useState} from 'react'
-import { useRouter,  } from 'next/navigation';
-import { Catamaran } from 'next/font/google';
+import {ChangeEvent,FormEvent,useState, useEffect} from 'react'
+import { useRouter, useParams  } from 'next/navigation';
+
 
 
 function FormPage() {
@@ -17,7 +17,7 @@ function FormPage() {
     
   });
   const router = useRouter()
- 
+  const params = useParams()
 
   const createRasks = async () => {
 
@@ -50,6 +50,9 @@ function FormPage() {
     e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => setNewTask({... newTask, [e.target.name]: e.target.value})
 
+  useEffect(() => {
+    console.log(params)
+  },[])
 
   return (
     <div className='h-[calc(100vh-7rem)] flex flex-col  justify-center items-center'>
@@ -57,7 +60,11 @@ function FormPage() {
          onSubmit={handlerSubmit}
          className='flex flex-col gap-2'
          >
-          <h1 className='font-bold text-3xl'>Crear Lugar</h1>
+          <h1 className='font-bold text-3xl'>
+            {
+              !params.id ? 'Nuevo Lugar' : 'Editar Lugar' 
+            }
+          </h1>
             <input type="text" name="nombre" placeholder='Nombre' 
             className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
