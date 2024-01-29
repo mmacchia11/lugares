@@ -58,7 +58,20 @@ function FormPage() {
   }
 
   const updateTask = async () => {
-    
+   try{
+    const res = await fetch(`/api/tasks/${params.id}`,{
+      method:"PUT",
+      body: JSON.stringify(newTask),
+      headers: {
+        "Content-type": "application/json"
+      }
+    })
+    const data = await res.json()
+    router.push('/')
+    router.refresh()
+   }catch(error){
+    console.log(error)
+   }
 
   }
 
@@ -81,7 +94,7 @@ function FormPage() {
     if(!params.id){
       await createTasks();
     }else{
-      console.log('update')
+      updateTask()
     }
 
   }
@@ -99,7 +112,7 @@ function FormPage() {
     <div className='h-[calc(100vh-7rem)] flex flex-col justify-center items-center'>
         <form
          onSubmit={handlerSubmit}
-         className='flex flex-col gap-2 mt-10'
+         className='flex flex-col gap-2'
          >
 
           <header className='flex justify-between items-center'>
@@ -142,6 +155,19 @@ function FormPage() {
             onChange={handleChange}
             value={newTask.direccion}
             />
+            <label htmlFor="opciones">Categoria</label>
+          <select id="opciones" className='bg-gray-800 border-2 w-full p-4 rounded-lg' >
+          <option value="">-- Selecciona una opción --</option>
+          <option value="opcion1">Cocinar</option>
+          <option value="opcion2">Almuerzo/cena</option>
+          <option value="opcion3">Merendar</option>
+          <option value="opcion4">Teatro</option>
+          <option value="opcion5">Cine</option>
+          <option value="opcion6">Ver en app</option>
+          <option value="opcion7">Escapadas</option>
+          <option value="opcion8">Vacaciones</option>
+          
+          </select>
             <button
             type='submit'
             className='bg-fuchsia-900 text-white font-bold px-2 py-4 rounded-lg border-2'>
