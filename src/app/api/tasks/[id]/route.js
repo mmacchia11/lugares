@@ -13,7 +13,7 @@ export async function GET(request, {params}){
     }, {
       status:404
     })
-      return NextResponse.json({taskFound})
+      return NextResponse.json(taskFound)
   }catch(error){
     return NextResponse.json(error.message,  {status:404})
   }

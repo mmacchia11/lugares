@@ -22,10 +22,20 @@ function FormPage() {
   const getTask = async () => {
     const res =  await fetch(`/api/tasks/${params.id}`)
     const data = await res.json()
+    //const dato = data.taskFound
     console.log(data)
+    setNewTask({
+      nombre: data.nombre,
+      description: data.description,
+      category: data.category,
+      instagram: data.instagram,
+      barrio: data.barrio,
+      direccion: data.direccion
+
+    })
   }
 
-  const createRasks = async () => {
+  const createTasks = async () => {
 
     try{
       const res = await fetch('/api/tasks',{
@@ -69,7 +79,7 @@ function FormPage() {
   const handlerSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if(!params.id){
-      await createRasks();
+      await createTasks();
     }else{
       console.log('update')
     }
@@ -77,7 +87,7 @@ function FormPage() {
   }
   const handleChange = (
     e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => setNewTask({... newTask, [e.target.name]: e.target.value})
+    ) => setNewTask({...newTask, [e.target.name]: e.target.value})
 
   useEffect(() => {
     if(params.id){
@@ -110,21 +120,27 @@ function FormPage() {
             <input type="text" name="nombre" placeholder='Nombre' 
             className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
+            value={newTask.nombre}
             />
-            <textarea name="description" id="" cols={30} rows={5} placeholder='Descripción' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
+            <textarea name="description" cols={30} rows={5} placeholder='Descripción' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
+            value={newTask.description}
             ></textarea>
             <input type="text" name="category" placeholder='Categoria' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
+            value={newTask.category}
             />
             <input type="text" name="instagram" placeholder='Instagram' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
+            value={newTask.instagram}
             />
             <input type="text" name="barrio" placeholder='Barrio' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
+            value={newTask.barrio}
             />
             <input type="text" name="direccion" placeholder='Direccion' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
+            value={newTask.direccion}
             />
             <button
             type='submit'
