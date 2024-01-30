@@ -99,9 +99,9 @@ function FormPage() {
 
   }
   const handleChange = (
-    e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement >
     ) => setNewTask({...newTask, [e.target.name]: e.target.value})
-
+    console.log(`preuba ${ JSON.stringify(newTask)}`)
   useEffect(() => {
     if(params.id){
       getTask()
@@ -139,10 +139,24 @@ function FormPage() {
             onChange={handleChange}
             value={newTask.description}
             ></textarea>
-            <input type="text" name="category" placeholder='Categoria' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
+
+            <select 
+            id="category" 
+            name='category' 
+            className='bg-gray-800 border-2 w-full p-4 rounded-lg text-gray-400'  
             onChange={handleChange}
             value={newTask.category}
-            />
+            >
+              <option value="">Categoria</option>
+              <option value="Cocinar" className='text-white'>Cocinar</option>
+              <option value="Almuerzo/cena"className='text-white'>Almuerzo/cena</option>
+              <option value="Merendar"className='text-white'>Merendar</option>
+              <option value="Teatro"className='text-white'>Teatro</option>
+              <option value="Cine"className='text-white'>Cine</option>
+              <option value="Ver en app"className='text-white'>Ver en app</option>
+              <option value="Escapadas"className='text-white'>Escapadas</option>
+              <option value="Vacaciones"className='text-white'>Vacaciones</option>
+            </select>
             <input type="text" name="instagram" placeholder='Instagram' className='bg-gray-800 border-2 w-full p-4 rounded-lg'
             onChange={handleChange}
             value={newTask.instagram}
@@ -155,19 +169,7 @@ function FormPage() {
             onChange={handleChange}
             value={newTask.direccion}
             />
-            <label htmlFor="opciones">Categoria</label>
-          <select id="opciones" className='bg-gray-800 border-2 w-full p-4 rounded-lg' >
-          <option value="">-- Selecciona una opción --</option>
-          <option value="opcion1">Cocinar</option>
-          <option value="opcion2">Almuerzo/cena</option>
-          <option value="opcion3">Merendar</option>
-          <option value="opcion4">Teatro</option>
-          <option value="opcion5">Cine</option>
-          <option value="opcion6">Ver en app</option>
-          <option value="opcion7">Escapadas</option>
-          <option value="opcion8">Vacaciones</option>
-          
-          </select>
+            
             <button
             type='submit'
             className='bg-fuchsia-900 text-white font-bold px-2 py-4 rounded-lg border-2'>
